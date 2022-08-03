@@ -126,7 +126,7 @@ public class GoogleAuth extends Plugin {
       });
     } catch (ApiException e) {
       if (SIGN_IN_CANCELLED == e.getStatusCode()) {
-        call.reject("The user canceled the sign-in flow.", "" + e.getStatusCode());
+        Log.d("Popup closed", "Popup closed by user.");
       } else {
         call.reject("Something went wrong", "" + e.getStatusCode());
       }
@@ -152,7 +152,7 @@ public class GoogleAuth extends Plugin {
   // Logic to retrieve accessToken, see https://github.com/EddyVerbruggen/cordova-plugin-googleplus/blob/master/src/android/GooglePlus.java
   private JSONObject getAuthToken(Account account, boolean retry) throws Exception {
     AccountManager manager = AccountManager.get(getContext());
-    AccountManagerFuture<Bundle> future = manager.getAuthToken(account, "oauth2:profile email", null, false, null, null);
+    AccountManagerFuture<Bundle> future = manager.getAuthToken(account, "oauth2:https://www.googleapis.com/auth/drive.readonly", null, false, null, null);
     Bundle bundle = future.getResult();
     String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
     try {

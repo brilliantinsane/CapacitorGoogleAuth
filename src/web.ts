@@ -107,7 +107,11 @@ export class GoogleAuthWeb extends WebPlugin implements GoogleAuthPlugin {
         user.serverAuthCode = serverAuthCode;
         resolve(user);
       } catch (error) {
-        reject(error);
+        if (error.error === 'popup_closed_by_user') {
+          console.log('Popup closed by user.');
+        } else {
+          reject(error);
+        }
       }
     });
   }

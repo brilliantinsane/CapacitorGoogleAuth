@@ -64,8 +64,13 @@ public class GoogleAuth: CAPPlugin {
                 
                 self.googleSignIn.signIn(with: self.googleSignInConfiguration, presenting: presentingVc) { user, error in
                     if let error = error {
-                        self.signInCall?.reject(error.localizedDescription, "\(error._code)");
-                        return;
+                        if (error._code == -5) {
+                            print("\(error.localizedDescription)");
+                            return;
+                        } else {
+                            self.signInCall?.reject(error.localizedDescription, "\(error._code)");
+                            return;
+                        }
                     }
                     if self.additionalScopes.count > 0 {
                         // requesting additional scopes in GoogleSignIn-iOS SDK 6.0 requires that you sign the user in and then request additional scopes,
